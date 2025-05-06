@@ -1,4 +1,4 @@
-include { softwareVersionsToYAML } from "../../subworkflows/nf-core/utils_nfcore_pipeline/"
+include { softwareVersionsToYAML } from "../subworkflows/nf-core/utils_nfcore_pipeline/"
 
 // colors and other
 def colorCodes() {
@@ -98,15 +98,19 @@ def zcatOrCat(filename) {
 
 // evaluate input string for making SE or PE read channel with meta info
 // suitable for nf-core modules
-def fromStringToNFCoreSeqs(input_string) {
+def fromStringToNFCoreSeqs(input_string, parseid = false) {
 	def myseqs = channel.of()
 	if (input_string.contains("{") && input_string.contains(",") && input_string.contains("}")) {
-    	myseqs = channel.fromFilePairs( input_string, checkIfExists: true ) 
-    	.map {[ [id: it[0], single_end:false],  it[1] ] }
+    	  myseqs = channel.fromFilePairs( input_string, checkIfExists: true ) 
+    	  .map {[ [id: it[0], single_end:false ],  it[1] ] }
 	} else {
-    	myseqs = channel.fromFilePairs( input_string, size: 1, checkIfExists: true)
-     	.map {[ [id: it[0], single_end:true],  it[1] ] }
-	}
+          mypars = channel.fromFilePairs( input_string, size: 1, checkIfExists: true)
+	  if (parseid) {
+             myseqs = mypars.map {[ [id: it[1][0].name, single_end: true], it[1] ] }
+	  } else {
+     	     myseqs = mypars.map {[ [id: it[0], single_end:true],  it[1] ] }
+	  }
+        }
     return (myseqs)
 }
 
