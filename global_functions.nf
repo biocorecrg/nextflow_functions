@@ -77,6 +77,29 @@ return (message)
 
 }
 
+// read a fasta file
+def readFasta(fastapath) {
+	def fastaMap = [:]
+	def currentId = null
+	def currentSeq = ""
+
+	file(fastapath).readLines()
+    .each {     
+		if (it.startsWith(">")) {
+			if (currentId) {
+				fastaMap[currentId] = currentSeq
+			}
+			currentId = it.substring(1).trim()
+			currentSeq = ""
+		} else {
+        	currentSeq = currentSeq + it.trim()
+    	}
+	}
+	fastaMap[currentId] = currentSeq
+		
+	return(fastaMap)
+}
+
 // make named pipe
 def unzipNamedPipe(filename) {
     def cmd = filename.toString()
