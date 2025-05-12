@@ -9,7 +9,7 @@ process EVENTUAL_UNZIP {
     tuple val(meta), path (file, name: "my-dir/*")
 
     output:
-    tuple val(meta), path("*")
+    tuple val(meta), path("*", type:"file")
     
     script:
     if (file.extension == "gz")  {
