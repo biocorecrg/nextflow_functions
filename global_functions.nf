@@ -146,6 +146,12 @@ def fromParToValueFileChannel(input_string) {
     return (myfile)
 }
 
+// from nf-core standard channel to value channel 
+def fromNFcoreToValueChannel(input_channel) {
+     val_channel = input_channel.map{it[1]}.first()
+     return (val_channel)
+}
+
 // evaluate input string for making a file path or an empty map
 def addPrefixToFiles(input_nf_ch, prefix) {
 	output_nf_ch = []
