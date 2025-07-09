@@ -162,6 +162,14 @@ def addPrefixToFiles(input_nf_ch, prefix) {
     return (output_nf_ch)
 }
 
-
+// remove the metamap from a channel 
+def metaToCanonical(input_nf_ch) {
+	output_nf_ch = []
+	output_nf_ch = input_nf_ch.map{ 
+		meta, files ->  
+    	[ meta.id, files ]  
+	}
+    return (output_nf_ch)
+}
 
 
