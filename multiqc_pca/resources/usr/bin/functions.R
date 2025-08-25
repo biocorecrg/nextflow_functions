@@ -125,7 +125,7 @@ makeColData <- function(desc_exp, fn) {
 
 #READ gene desc file
 makeDesc <- function(desc_gene) {
-	desc<-read.table(file=desc_gene, sep="\t", header=F)
+	desc<-read.table(file=desc_gene, sep="\t", header=F, quote="", stringsAsFactors=FALSE)
 	names(desc)<-c("gene.id", "gene.name", "gene.type")
 	desc <- desc[-grep("gene_id", desc$gene.id), ]
 	return(desc)
