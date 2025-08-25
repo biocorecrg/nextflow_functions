@@ -72,3 +72,13 @@ pca_data$color <- color_map[pca_data[[condition]]]
 # Save PCA data and variance tables
 write.table(pca_data, file="PCA_data.tsv", sep="\t", quote=FALSE, row.names=FALSE)
 write.table(pca_variance, file="PCA_variance.tsv", sep="\t", quote=FALSE, row.names=FALSE)
+
+if (args$Desc_genes != "") {
+    print("found desc gene file")
+
+    # Get results
+    desc <- makeDesc(args$Desc_genes)
+    printCounts(vsd, desc)
+
+
+}
